@@ -52,6 +52,7 @@ int main()
 {
     Vector2 screenSize = {800, 480};
     
+    SetConfigFlags(ConfigFlags::FLAG_WINDOW_RESIZABLE);
     InitWindow(screenSize.x, screenSize.y, "To Simply Do");
     SetTargetFPS(60);
 
@@ -63,19 +64,19 @@ int main()
     
     //-TASKS
     vector<string> tasks;
-    const Vector2 taskSize = {screenSize.x - defaultBuffer * 2, defaultBuffer * 2};
-    const int taskFontSize = 16;
+    Vector2 taskSize = {screenSize.x - defaultBuffer * 2, defaultBuffer * 2};
+    const int taskFontSize = 24;
     
     //-TITLE
     const int titleFontSize = 20;
     const char *titleText = "TO SIMPLY DO";
-    const Vector2 titlePos = {screenSize.x / 2 - MeasureText(titleText, titleFontSize) / 2, defaultBuffer};
+    Vector2 titlePos = {screenSize.x / 2 - MeasureText(titleText, titleFontSize) / 2, defaultBuffer};
     
     //-ADD A TASK
     
     //BUTTON
     const Vector2 addButtonSize = {120, 30};
-    const Vector2 addButtonPos = {screenSize.x - addButtonSize.x - defaultBuffer, (float) defaultBuffer};
+    Vector2 addButtonPos = {screenSize.x - addButtonSize.x - defaultBuffer, (float) defaultBuffer};
     const char *addButtonText = "#65#Add New Task";
     
     //POPUP
@@ -83,12 +84,19 @@ int main()
     char inputText[maxTextLength] = "";       // This is where input will be stored
     bool secretActive = true;     // Whether to mask input (e.g., like password)
     const Vector2 addPopupSize = {250, 130};
-    const Vector2 addPopupPos = {(screenSize.x / 2) - (addPopupSize.x / 2), (screenSize.y / 2) - (addPopupSize.y / 2)};
+    Vector2 addPopupPos = {(screenSize.x / 2) - (addPopupSize.x / 2), (screenSize.y / 2) - (addPopupSize.y / 2)};
     
     ReloadTasks(toDoFile, toDoFilename, tasks);
     
     while (!WindowShouldClose())
     {
+        screenSize = {(float) GetScreenWidth(), (float) GetScreenHeight()};
+        
+        taskSize = {screenSize.x - defaultBuffer * 2, defaultBuffer * 2};
+        titlePos = {screenSize.x / 2 - MeasureText(titleText, titleFontSize) / 2, defaultBuffer};
+        addButtonPos = {screenSize.x - addButtonSize.x - defaultBuffer, (float) defaultBuffer};
+        addPopupPos = {(screenSize.x / 2) - (addPopupSize.x / 2), (screenSize.y / 2) - (addPopupSize.y / 2)};
+        
         BeginDrawing();
             ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
             
